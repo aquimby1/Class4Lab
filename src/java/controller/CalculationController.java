@@ -37,15 +37,34 @@ public class CalculationController extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         FormulaCalculator fc = new FormulaCalculator();
+        String type = request.getParameter("calcType");
         
-        String l = request.getParameter("recLength");
-        String w = request.getParameter("recWidth");
-        double a = fc.calcRectangleArea(l, w);
+        if(type.equals("rectangle")){
+            String l = request.getParameter("recLength");
+            String w = request.getParameter("recWidth");
+            double a = fc.calcRectangleArea(l, w);
         
-        request.setAttribute("area", a);
+            request.setAttribute("recArea", a); 
+        }
+        
+        if(type.equals("circle")){
+            String r = request.getParameter("circleRad");
+            double a = fc.calcCircleArea(r);
+            
+            request.setAttribute("cirArea", a); 
+        }
+        
+        if(type.equals("triangle")){
+            String s1 = request.getParameter("triSide1");
+            String s2 = request.getParameter("triSide2");
+            double a = fc.calcTriangleArea(s1, s2);
+            
+            request.setAttribute("triArea", a); 
+        }
+        
         
         RequestDispatcher view =
-                request.getRequestDispatcher("/results.jsp");
+                request.getRequestDispatcher("/home.jsp");
         view.forward(request, response);
         
         
